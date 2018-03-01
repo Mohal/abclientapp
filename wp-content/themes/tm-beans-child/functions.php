@@ -50,3 +50,59 @@ function example_footer_credit_right_text()
 }
 // Modify the footer credit right text.
 add_filter('beans_footer_credit_right_text_output', 'example_footer_credit_right_text');
+
+/*
+* Creating a function to create our CPT
+*/
+ 
+function create_client_post_type()
+{
+ 
+	// Set UI labels for Custom Post Type
+    $labels = array(
+        'name'                => __('Clients'),
+        'singular_name'       => __('Client'),
+        'menu_name'           => __('Clients'),
+        'parent_item_colon'   => __('Parent Client'),
+        'all_items'           => __('All Clients'),
+        'view_item'           => __('View Client'),
+        'add_new_item'        => __('Add New Client'),
+        'add_new'             => __('Add New'),
+        'edit_item'           => __('Edit Client'),
+        'update_item'         => __('Update Client'),
+        'search_items'        => __('Search Client'),
+        'not_found'           => __('Not Found'),
+        'not_found_in_trash'  => __('Not found in Trash'),
+    );
+     
+	// Set other options for Custom Post Type
+    $args = array(
+        'label'               => __('clients'),
+        'description'         => __('Client news and reviews'),
+        'labels'              => $labels,
+        // Features this CPT supports in Post Editor
+        'supports'            => array('title', 'editor', 'excerpt', 'author', 'thumbnail', 'comments', 'revisions', 'custom-fields'),
+        /* A hierarchical CPT is like Pages and can have
+        * Parent and child items. A non-hierarchical CPT
+        * is like Posts.
+        */ 
+        'hierarchical'        => false,
+        'public'              => true,
+        'show_ui'             => true,
+        'show_in_menu'        => true,
+        'show_in_nav_menus'   => true,
+        'show_in_admin_bar'   => true,
+        'menu_position'       => 5,
+        'can_export'          => true,
+        'has_archive'         => true,
+        'exclude_from_search' => false,
+        'publicly_queryable'  => true,
+        'capability_type'     => 'page',
+    );
+     
+    // Registering your Custom Post Type
+    register_post_type('ab_client', $args);
+ 
+}
+ 
+add_action('init', 'create_client_post_type', 0);
