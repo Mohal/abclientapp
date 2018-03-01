@@ -13,16 +13,30 @@
 <!-- Titlebar
 ================================================== -->
 <?php 
-$postTitleError = '';
+function beans_create_client_form()
+{
+$error_message = false;
  
-if (is_array($_POST) && isset($_POST)) {
-	if (trim($_POST['postTitle']) === '') {
-		$postTitleError = 'Please enter a title.';
+if (is_array($_POST) && count($_POST)) {
+	if (trim($_POST['name']) === '') {
+		$error_message[] = 'Please enter a name';
+        $hasError = true;
+    }
+	if (trim($_POST['phone']) === '') {
+		$error_message[] = 'Please enter a phone';
+        $hasError = true;
+    }
+	if (trim($_POST['email']) === '') {
+		$error_message[] = 'Please enter an email';
         $hasError = true;
     }
 }
-function beans_create_client_form()
-{
+if (is_array($error_message) && count($error_message)) {
+?>
+    <div class="uk-alert uk-alert-danger"><?php echo(implode('<br />', $error_message)); ?></div>
+    <div class="clearfix"></div>
+<?php
+}
 ?>
 <p>Fill the form below to add new client.</p>
 <form class="uk-form uk-form-horizontal" action="" id="primary_client_form" method="POST">
@@ -30,11 +44,11 @@ function beans_create_client_form()
 		<div class="uk-form-row">
 			<label class="uk-form-label" for="name">Name: </label>
 			<div class="uk-form-controls">
-				<input type="text" name="name" id="name" class="required" placeholder="Client Name" />
+				<input type="text" name="name" id="name" class="required" placeholder="Client Name" value="<?php if (isset($_POST['name'])) echo($_POST['name']); ?>" />
 			</div>
 		</div>
 		<div class="uk-form-row">
-			<label class="uk-form-label" for="phone">Gender: </label>
+			<label class="uk-form-label" for="gender">Gender: </label>
 			<div class="uk-form-controls">
 				<select name="gender" class="required">
 					<option value="female">Female</option>
@@ -46,38 +60,39 @@ function beans_create_client_form()
 		<div class="uk-form-row">
 			<label class="uk-form-label" for="phone">Phone: </label>
 			<div class="uk-form-controls">
-				<input type="text" name="phone" id="phone" class="required" placeholder="Client Phone" />
+				<input type="text" name="phone" id="phone" class="required" placeholder="Client Phone" value="<?php if (isset($_POST['phone'])) echo($_POST['phone']); ?>" />
 			</div>
 		</div>
 		<div class="uk-form-row">
 			<label class="uk-form-label" for="email">Email: </label>
 			<div class="uk-form-controls">
-				<input type="email" name="email" id="email" class="required" placeholder="Client Email" />
+				<input type="email" name="email" id="email" class="required" placeholder="Client Email" value="<?php if (isset($_POST['email'])) echo($_POST['email']); ?>" />
 			</div>
 		</div>
 		<div class="uk-form-row">
 			<label class="uk-form-label" for="address">Address: </label>
 			<div class="uk-form-controls">
-				<input type="text" name="address" id="address" placeholder="Client Address" />
+				<input type="text" name="address" id="address" placeholder="Client Address" value="<?php if (isset($_POST['address'])) echo($_POST['address']); ?>" />
 			</div>
 		</div>
 		<div class="uk-form-row">
 			<label class="uk-form-label" for="nationality">Nationality: </label>
 			<div class="uk-form-controls">
-				<input type="text" name="nationality" id="nationality" placeholder="Client Nationality" />
+				<input type="text" name="nationality" id="nationality" placeholder="Client Nationality" value="<?php if (isset($_POST['nationality'])) echo($_POST['nationality']); ?>" />
 			</div>
 		</div>
 		<div class="uk-form-row">
 			<label class="uk-form-label" for="nationality">Date of Birth: </label>
 			<div class="uk-form-icon" style="margin-left: 15px;">
 				<i class="uk-icon-calendar"></i>
-				<input type="text" name="dob" id="dob" placeholder="Date of Birth" style="padding-left: 30px !important;" />
+				<input type="text" name="dob" id="dob" placeholder="Date of Birth" style="padding-left: 30px !important;" value="<?php if (isset($_POST['dob'])) echo($_POST['dob']); ?>" />
 			</div>
 		</div>
 		<div class="uk-form-row">
             <label class="uk-form-label" for="education">Education Background: </label>
             <div class="uk-form-controls">
-                <textarea id="education" cols="30" rows="5" placeholder="Education Background"></textarea>
+                <textarea id="education" cols="30" rows="5" placeholder="Education Background" name="education"><?php if (isset($_POST['education'])) { if (function_exists('stripslashes')) { echo(stripslashes($_POST['education'])); } else { echo($_POST['postContent']); }} ?>
+</textarea>
             </div>
         </div>
         <div class="uk-form-row">
